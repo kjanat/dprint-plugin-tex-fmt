@@ -1,0 +1,49 @@
+[package]
+name         = "dprint-plugin-tex-fmt"
+version      = "0.1.0"
+edition      = "2024"
+rust-version = "1.96"
+description  = "dprint Wasm plugin that formats tex"
+readme       = "README.md"
+repository   = "https://github.com/kjanat/dprint-plugin-tex-fmt"
+license      = "Apache-2.0 OR MIT"
+keywords     = ["dprint", "formatter", "tex", "wasm"]
+categories   = ["development-tools", "text-editors"]
+publish      = false
+autobins     = false
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name       = "dprint_plugin_tex_fmt"
+path       = "src/lib.rs"
+
+[dependencies]
+anyhow = "1"
+
+[dependencies.dprint-core]
+version  = "0.67"
+features = ["formatting", "wasm"]
+
+[dependencies.dprint-core-macros]
+version = "0.1"
+
+[dependencies.serde]
+version  = "1"
+features = ["derive"]
+
+[dependencies.serde_json]
+version = "1"
+
+[dependencies.tex-fmt]
+version = "0.5"
+
+# Size-optimized profile for the published Wasm artifact: cold-load cost
+# dominates a dprint plugin, so trade compile time / steady-state speed for a
+# smaller binary. Built with `cargo build --profile wasm-release`.
+[profile.wasm-release]
+inherits      = "release"
+opt-level     = "z"
+strip         = true
+lto           = "fat"
+panic         = "abort"
+codegen-units = 1
