@@ -1,11 +1,11 @@
 pub mod config;
 
-use config::resolve_config;
 pub use config::Configuration;
+use config::resolve_config;
 use dprint_core::configuration::{ConfigKeyMap, GlobalConfiguration};
 use dprint_core::plugins::{
-    CheckConfigUpdatesMessage, ConfigChange, PluginInfo,
-    PluginResolveConfigurationResult, SyncFormatRequest, SyncHostFormatRequest, SyncPluginHandler,
+    CheckConfigUpdatesMessage, ConfigChange, PluginInfo, PluginResolveConfigurationResult,
+    SyncFormatRequest, SyncHostFormatRequest, SyncPluginHandler,
 };
 use tex_fmt::args::{Args, TabChar};
 use tex_fmt::format::format_file;
@@ -32,13 +32,25 @@ impl SyncPluginHandler<Configuration> for PluginHandler {
             version: env!("CARGO_PKG_VERSION").to_string(),
             config_key: "texFmt".to_string(),
             help_url: env!("CARGO_PKG_REPOSITORY").to_string(),
-            config_schema_url: String::new(),
-            update_url: None,
+            config_schema_url: concat!(
+                "https://raw.githubusercontent.com/kjanat/dprint-plugin-tex-fmt/v",
+                env!("CARGO_PKG_VERSION"),
+                "/schema.json",
+            )
+            .to_string(),
+            update_url: Some(
+                "https://plugins.dprint.dev/kjanat/tex-fmt/latest.json".to_string(),
+            ),
         }
     }
 
     fn license_text(&mut self) -> String {
-        include_str!("../LICENSE-MIT").to_string()
+        concat!(
+            include_str!("../LICENSE-MIT"),
+            "\n\n",
+            include_str!("../LICENSE-APACHE"),
+        )
+        .to_string()
     }
 
     fn resolve_config(

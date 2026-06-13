@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Configuration",
+  "description": "dprint configuration for tex-fmt.\n\nAll keys use camelCase.  Unrecognised keys produce a diagnostic.\nGlobal dprint keys (`lineWidth`, `indentWidth`, `useTabs`) are used as\nfallback defaults for `wraplen`, `tabsize`, and `tabchar` respectively.",
+  "type": "object",
+  "required": [
+    "formatTables",
+    "lists",
+    "noIndentEnvs",
+    "tabchar",
+    "tabsize",
+    "verbatims",
+    "wrap",
+    "wrapChars",
+    "wraplen",
+    "wrapmin"
+  ],
+  "properties": {
+    "formatTables": {
+      "description": "Enable experimental table formatting (default: `false`).",
+      "type": "boolean"
+    },
+    "lists": {
+      "description": "Extra list environments beyond tex-fmt's built-in defaults.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "noIndentEnvs": {
+      "description": "Environments that are not indented.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tabchar": {
+      "description": "Character used for indentation.\nMust be `\"space\"` or `\"tab\"` (default: `\"space\"`, or `\"tab\"` when `useTabs` is set).",
+      "type": "string",
+      "enum": [
+        "space",
+        "tab"
+      ]
+    },
+    "tabsize": {
+      "description": "Number of spaces per indent level (default: `2`, or `indentWidth`).",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 255,
+      "format": "uint8"
+    },
+    "verbatims": {
+      "description": "Extra verbatim environments beyond tex-fmt's built-in defaults.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "wrap": {
+      "description": "Wrap long lines (default: `true`).",
+      "type": "boolean"
+    },
+    "wrapChars": {
+      "description": "Characters after which lines may be wrapped (each entry must be a single character).",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1
+      }
+    },
+    "wraplen": {
+      "description": "Maximum line length before wrapping (default: `80`, or `lineWidth`).",
+      "type": "integer",
+      "minimum": 0,
+      "format": "uint"
+    },
+    "wrapmin": {
+      "description": "Lines longer than this will be wrapped.\nDefaults to `wraplen - 10` when `wraplen >= 50`, otherwise `wraplen`.",
+      "type": "integer",
+      "minimum": 0,
+      "format": "uint"
+    }
+  }
+}

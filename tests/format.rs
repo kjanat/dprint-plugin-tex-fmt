@@ -64,12 +64,23 @@ fn plugin_info_is_valid() {
     let info = handler.plugin_info();
     assert_eq!(info.config_key, "texFmt");
     assert!(!info.version.is_empty());
+    assert!(
+        info.config_schema_url.ends_with("/schema.json"),
+        "config_schema_url should end with /schema.json, got: {}",
+        info.config_schema_url
+    );
+    assert!(
+        info.update_url.is_some(),
+        "update_url must be set for plugin registry"
+    );
 }
 
 #[test]
-fn license_text_is_non_empty() {
+fn license_text_contains_both_licenses() {
     let mut handler = make_handler();
-    assert!(!handler.license_text().is_empty());
+    let text = handler.license_text();
+    assert!(text.contains("MIT"), "license text must mention MIT");
+    assert!(text.contains("Apache"), "license text must mention Apache");
 }
 
 #[test]
@@ -82,7 +93,10 @@ fn unknown_config_key_produces_diagnostic() {
     );
     let result = handler.resolve_config(config, &GlobalConfiguration::default());
     assert!(
-        result.diagnostics.iter().any(|d| d.property_name == "unknownOption"),
+        result
+            .diagnostics
+            .iter()
+            .any(|d| d.property_name == "unknownOption"),
         "expected diagnostic for unknown key"
     );
 }

@@ -30,6 +30,13 @@ version = "0.1"
 [dependencies.log]
 version = "0.4"
 
+[dependencies.json-schema-sort]
+version = "0.1"
+default-features = false
+
+[dependencies.schemars]
+version = "1"
+
 [dependencies.serde]
 version  = "1"
 features = ["derive"]
@@ -39,6 +46,10 @@ version = "1"
 
 [dependencies.tex-fmt]
 version = "0.5"
+
+[[bin]]
+name = "schema-gen"
+path = "src/main.rs"
 
 [patch.crates-io]
 # tex-fmt depends on web-time which uses wasm-bindgen browser APIs on
