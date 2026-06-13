@@ -27,6 +27,9 @@ features = ["formatting", "wasm"]
 [dependencies.dprint-core-macros]
 version = "0.1"
 
+[dependencies.log]
+version = "0.4"
+
 [dependencies.serde]
 version  = "1"
 features = ["derive"]
@@ -36,6 +39,13 @@ version = "1"
 
 [dependencies.tex-fmt]
 version = "0.5"
+
+[patch.crates-io]
+# tex-fmt depends on web-time which uses wasm-bindgen browser APIs on
+# wasm32-unknown-unknown — a target that dprint plugins require but that has
+# no browser runtime.  This local stub replaces the timing implementation
+# with an atomic counter so the plugin loads without unresolved JS imports.
+web-time = { path = "crates/web-time" }
 
 # Size-optimized profile for the published Wasm artifact: cold-load cost
 # dominates a dprint plugin, so trade compile time / steady-state speed for a
