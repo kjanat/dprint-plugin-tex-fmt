@@ -17,6 +17,10 @@ crate-type = ["cdylib", "lib"]
 name       = "dprint_plugin_tex_fmt"
 path       = "src/lib.rs"
 
+[[bin]]
+name = "schema-gen"
+path = "src/main.rs"
+
 [dependencies]
 anyhow = "1"
 
@@ -27,12 +31,12 @@ features = ["formatting", "wasm"]
 [dependencies.dprint-core-macros]
 version = "0.1"
 
+[dependencies.json-schema-sort]
+version          = "0.1"
+default-features = false
+
 [dependencies.log]
 version = "0.4"
-
-[dependencies.json-schema-sort]
-version = "0.1"
-default-features = false
 
 [dependencies.schemars]
 version = "1"
@@ -46,10 +50,6 @@ version = "1"
 
 [dependencies.tex-fmt]
 version = "0.5"
-
-[[bin]]
-name = "schema-gen"
-path = "src/main.rs"
 
 [patch.crates-io]
 # tex-fmt depends on web-time which uses wasm-bindgen browser APIs on

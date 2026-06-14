@@ -1,7 +1,4 @@
 {
 	"$schema": "https://dprint.dev/schemas/v0.json",
-	"texFmt": {
-		"tabsize": 4
-	},
 	"plugins": ["../../../target/wasm32-unknown-unknown/wasm-release/dprint_plugin_tex_fmt.wasm"]
 }

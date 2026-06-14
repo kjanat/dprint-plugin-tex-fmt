@@ -10,14 +10,26 @@ env:
   RUST_BACKTRACE: 1
 
 jobs:
-  check:
-    name: Check (native)
+  lint:
+    name: Lint + schema
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@stable
+        with: { components: clippy }
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo clippy --all-targets -- -D warnings
+      - run: cargo run --bin schema-gen > /tmp/schema.json
+      - run: diff schema.json /tmp/schema.json
+
+  test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
-      - run: cargo check --all-targets
+      - run: cargo test
 
   check-wasm:
     name: Check (wasm32-unknown-unknown)
@@ -29,42 +41,31 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - run: cargo check --lib --target wasm32-unknown-unknown
 
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - uses: dtolnay/rust-toolchain@stable
-      - uses: Swatinem/rust-cache@v2
-      - run: cargo test
-
-  clippy:
-    name: Clippy
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - uses: dtolnay/rust-toolchain@stable
-        with: { components: clippy }
-      - uses: Swatinem/rust-cache@v2
-      - run: cargo clippy --all-targets -- -D warnings
-
-  schema:
-    name: schema.json up-to-date
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - uses: dtolnay/rust-toolchain@stable
-      - uses: Swatinem/rust-cache@v2
-      - run: cargo run --bin schema-gen > /tmp/schema.json
-      - run: diff schema.json /tmp/schema.json
-
   wasm-build:
     name: Wasm release build
+    needs: check-wasm
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: dtolnay/rust-toolchain@stable
         with: { targets: wasm32-unknown-unknown }
       - uses: Swatinem/rust-cache@v2
       - run: cargo build --profile wasm-release --target wasm32-unknown-unknown
       - run: ls -lh target/wasm32-unknown-unknown/wasm-release/*.wasm
+      - uses: actions/upload-artifact@v4
+        with:
+          name: plugin-wasm
+          path: target/wasm32-unknown-unknown/wasm-release/dprint_plugin_tex_fmt.wasm
+
+  e2e:
+    name: End-to-end (wasm + dprint)
+    needs: [lint, test, wasm-build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v4
+        with:
+          name: plugin-wasm
+          path: target/wasm32-unknown-unknown/wasm-release/
+      - uses: kjanat/install-dprint@v1
+      - run: bash scripts/e2e.sh

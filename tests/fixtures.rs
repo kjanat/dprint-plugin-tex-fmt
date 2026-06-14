@@ -30,12 +30,17 @@ fn load_config(fixture_dir: &Path) -> ConfigKeyMap {
     }
     let json: serde_json::Value =
         serde_json::from_str(&fs::read_to_string(&config_path).unwrap()).unwrap();
-    match json {
+    // config.json is a dprint config; extract the plugin's own key.
+    let plugin_config = json
+        .get("texFmt")
+        .cloned()
+        .unwrap_or(serde_json::Value::Object(Default::default()));
+    match plugin_config {
         serde_json::Value::Object(obj) => obj
             .into_iter()
             .map(|(k, v)| (k, json_to_config(v)))
             .collect(),
-        _ => panic!("config.json must be a JSON object"),
+        _ => panic!("config.json texFmt value must be a JSON object"),
     }
 }
 
