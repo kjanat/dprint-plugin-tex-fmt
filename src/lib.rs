@@ -1,6 +1,7 @@
 pub mod config;
 
 pub use config::Configuration;
+pub use config::FILE_EXTENSIONS;
 use config::resolve_config;
 use dprint_core::configuration::{ConfigKeyMap, GlobalConfiguration};
 use dprint_core::plugins::{
@@ -32,12 +33,10 @@ impl SyncPluginHandler<Configuration> for PluginHandler {
             version: env!("CARGO_PKG_VERSION").to_string(),
             config_key: "texFmt".to_string(),
             help_url: env!("CARGO_PKG_REPOSITORY").to_string(),
-            config_schema_url: concat!(
-                "https://raw.githubusercontent.com/kjanat/dprint-plugin-tex-fmt/v",
-                env!("CARGO_PKG_VERSION"),
-                "/schema.json",
-            )
-            .to_string(),
+            config_schema_url: format!(
+                "https://plugins.dprint.dev/kjanat/tex-fmt/{}/schema.json",
+                env!("CARGO_PKG_VERSION")
+            ),
             update_url: Some(
                 "https://plugins.dprint.dev/kjanat/tex-fmt/latest.json".to_string(),
             ),

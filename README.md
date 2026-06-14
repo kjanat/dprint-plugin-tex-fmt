@@ -13,6 +13,7 @@ Or add manually to `dprint.json`:
 
 ```json
 {
+  "$schema": "https://dprint.dev/schemas/v0.json",
   "plugins": [
     "https://plugins.dprint.dev/kjanat/tex-fmt-0.1.0.wasm"
   ]

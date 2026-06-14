@@ -21,31 +21,11 @@ jobs:
         with: { targets: wasm32-unknown-unknown }
       - uses: Swatinem/rust-cache@v2
       - run: cargo wasm
-      - run: cp target/wasm32-unknown-unknown/wasm-release/dprint_plugin_tex_fmt.wasm plugin.wasm
-      - name: Generate release body
-        run: |
-          cat > release-body.md <<EOF
-          ## Installation
-
-          \`\`\`sh
-          dprint add kjanat/tex-fmt
-          \`\`\`
-
-          Or add manually to \`dprint.json\`:
-
-          \`\`\`json
-          {
-            "plugins": [
-              "https://plugins.dprint.dev/kjanat/tex-fmt-${GITHUB_REF_NAME}.wasm"
-            ]
-          }
-          \`\`\`
-
-          EOF
+      - run: cargo schema
       - uses: softprops/action-gh-release@v3
         with:
           files: |
             plugin.wasm
             schema.json
-          body_path: release-body.md
+          body_path: release-fragment.md
           generate_release_notes: true
