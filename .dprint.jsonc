@@ -1,5 +1,5 @@
 {
-  "extends": "https://github.com/kjanat/kjanat/raw/886a886/configs/dprint.remote.json",
+  "extends": "https://github.com/kjanat/kjanat/raw/d2cc6495/configs/dprint.remote.json",
   "excludes": ["**/*fixtures*/**", "**/*snapshots*/**"],
   "markdown": {
     "lineWidth": 120,
@@ -20,7 +20,6 @@
   },
   "plugins": [
     "https://plugins.dprint.dev/exec-0.6.2.json@df98f54ffd3092b8a841aedd6d098a2651f16d0a796a40535774f1a8b4b9d463",
-    "https://plugins.dprint.dev/kjanat/json-schema-sort-0.1.0.wasm",
-    "https://plugins.dprint.dev/kjanat/tex-fmt-0.1.0.wasm",
+    "https://plugins.dprint.dev/kjanat/tex-fmt-0.1.1.wasm",
   ],
 }
