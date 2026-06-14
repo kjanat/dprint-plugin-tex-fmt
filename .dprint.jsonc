@@ -1,5 +1,5 @@
 {
-  "extends": "https://github.com/kjanat/kjanat/raw/d2cc6495/configs/dprint.remote.json",
+  "extends": "https://github.com/kjanat/kjanat/raw/83172bac/configs/dprint.remote.json",
   "excludes": ["**/*fixtures*/**", "**/*snapshots*/**"],
   "markdown": {
     "lineWidth": 120,
