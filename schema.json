@@ -1,5 +1,5 @@
 {
-  "$id": "https://plugins.dprint.dev/kjanat/tex-fmt/0.1.0/schema.json",
+  "$id": "https://plugins.dprint.dev/kjanat/tex-fmt/0.1.1/schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Configuration",
   "description": "dprint configuration for tex-fmt.\n\nAll keys use camelCase.  Unrecognised keys produce a diagnostic.\nGlobal dprint keys (`lineWidth`, `indentWidth`, `useTabs`) are used as\nfallback defaults for `wraplen`, `tabsize`, and `tabchar` respectively.",
