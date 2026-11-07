@@ -1,0 +1,13 @@
+extends  = "https://cdn.jsdelivr.net/gh/kjanat/kjanat@master/configs/dprint.remote.json"
+excludes = ["**/*fixtures*/**", "**/*snapshots*/**"]
+plugins  = ["https://plugins.dprint.dev/kjanat/tex-fmt-0.1.1.wasm"]
+
+[markdown]
+lineWidth = 120
+textWrap  = "always"
+
+[json]
+useTabs = false
+
+[jsonSchemaSort]
+associations = ["**/schema.json", "**/*.schema.json"]

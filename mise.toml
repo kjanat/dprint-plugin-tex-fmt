@@ -1,0 +1,17 @@
+[tools]
+dprint = "latest"
+kfmt   = { version = "latest", minimum_release_age = "0s" }
+kprint = "latest"
+rust   = "latest"
+
+[tool_alias]
+dprint = "github:dprint/dprint"
+kfmt   = "npm:@kjanat/fmt"
+kprint = "github:kjanat/kprint"
+
+[settings]
+idiomatic_version_file_enable_tools = ["rust"]
+minimum_release_age                 = "0s"
+
+[tasks.fmt]
+run = "kfmt"
