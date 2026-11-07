@@ -21,7 +21,7 @@ path       = "src/lib.rs"
 anyhow = "1"
 
 [dependencies.dprint-core]
-version  = "0.67"
+version  = "0.75"
 features = ["formatting", "wasm"]
 
 [dependencies.dprint-core-macros]
